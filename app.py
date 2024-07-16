@@ -70,13 +70,19 @@ if (selected == 'Diabetes Prediction'):
     
     # creating a button for Prediction
     if st.button('Diabetes Test Result'):
-        diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
-        
-        if (diab_prediction[0] == 1):
-          diab_diagnosis = 'The person is diabetic'
-        else:
-          diab_diagnosis = 'The person is not diabetic'
-        
+        with st.spinner('Predicting...'):
+            # Check if all fields are filled
+            if Pregnancies == '' or Glucose == '' or BloodPressure == '' or SkinThickness == '' or Insulin == '' or BMI == '' or DiabetesPedigreeFunction == '' or Age == '':
+                st.warning('Please fill in all the input fields to get an accurate prediction.')
+            else:
+                # Perform prediction
+                diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
+
+                if diab_prediction[0] == 1:
+                    diab_diagnosis = 'The person is diabetic'
+                else:
+                    diab_diagnosis = 'The person is not diabetic'
+
     st.success(diab_diagnosis)
 
     st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
