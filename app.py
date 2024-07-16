@@ -82,7 +82,8 @@ if (selected == 'Diabetes Prediction'):
                     diab_diagnosis = 'The person is diabetic'
                 else:
                     diab_diagnosis = 'The person is not diabetic'
-
+    with st.spinner('Wait for it...'):
+    time.sleep(5)
     st.success(diab_diagnosis)
     st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
     st.balloons()
