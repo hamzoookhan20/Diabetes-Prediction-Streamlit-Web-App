@@ -85,7 +85,7 @@ if (selected == 'Diabetes Prediction'):
 
     st.success(diab_diagnosis)
     st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
-
+    st.balloons()
 
 
 
