@@ -84,6 +84,7 @@ if (selected == 'Diabetes Prediction'):
                     diab_diagnosis = 'The person is not diabetic'
     st.success(diab_diagnosis)
     st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
+    st.info('This is a purely informational message', icon="ℹ️")
     st.balloons()
 
 
