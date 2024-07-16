@@ -67,11 +67,9 @@ if (selected == 'Diabetes Prediction'):
     
     # code for Prediction
     diab_diagnosis = ''
-    
-# Button for prediction and reset
-    col1, col2, col3 = st.columns([1, 1, 1])
-    
-    if col1.button('Diabetes Test Result'):
+
+# creating a button for Prediction
+    if st.button('Diabetes Test Result'):
         with st.spinner('Predicting...'):
             # Check if all fields are filled
             if Pregnancies == '' or Glucose == '' or BloodPressure == '' or SkinThickness == '' or Insulin == '' or BMI == '' or DiabetesPedigreeFunction == '' or Age == '':
@@ -85,22 +83,9 @@ if (selected == 'Diabetes Prediction'):
                 else:
                     diab_diagnosis = 'The person is not diabetic'
 
-                # Display prediction result
-                st.success(diab_diagnosis)
-
-    if col2.button('Reset'):
-        # Clear input fields
-        Pregnancies = ''
-        Glucose = ''
-        BloodPressure = ''
-        SkinThickness = ''
-        Insulin = ''
-        BMI = ''
-        DiabetesPedigreeFunction = ''
-        Age = ''
-
-    # Responsive note
+    st.success(diab_diagnosis)
     st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
+
 
 
 
