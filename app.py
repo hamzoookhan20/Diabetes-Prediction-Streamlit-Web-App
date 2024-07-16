@@ -69,6 +69,12 @@ if (selected == 'Diabetes Prediction'):
     diab_diagnosis = ''
     
     # creating a button for Prediction
+    if any(value == 0 or value == 0.0 for value in user_data.values()):
+        st.warning("Please fill in all input fields to get an accurate prediction.")
+    else:
+        with st.spinner('Processing...'):
+            time.sleep(2)
+
     
     if st.button('Diabetes Test Result'):
         diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
