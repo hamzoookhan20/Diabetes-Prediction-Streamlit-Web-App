@@ -100,7 +100,7 @@ if (selected == 'Diabetes Prediction'):
         Age = ''
 
     # Responsive note
-    st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction. Ensure your inputs fit within the character limits for each field on mobile devices.")
+    st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
 
 
 
