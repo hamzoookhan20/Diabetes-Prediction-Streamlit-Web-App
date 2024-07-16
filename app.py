@@ -84,17 +84,6 @@ if (selected == 'Diabetes Prediction'):
                     diab_diagnosis = 'The person is not diabetic'
 
     st.success(diab_diagnosis)
-# Reset button
-    if st.button('Reset'):
-        # Clear input fields
-        st.text_input('Number of Pregnancies', value=Pregnancies, label='Number of Pregnancies', help="Enter the number of times the patient has been pregnant.")
-        st.text_input('Glucose Level', value=Glucose, label='Glucose Level', help="Enter the plasma glucose concentration measured two hours after an oral glucose tolerance test.")
-        st.text_input('Blood Pressure value', value=BloodPressure, label='Blood Pressure value', help="Enter the diastolic blood pressure value in mm Hg. This is the blood pressure when the heart is resting between beats.")
-        st.text_input('Skin Thickness value', value=SkinThickness, label='Skin Thickness value', help="Enter the thickness of the triceps skin fold in mm. This value helps in estimating body fat.")
-        st.text_input('Insulin Level', value=Insulin, label='Insulin Level', help="Enter the 2-hour serum insulin level in mu U/ml. This helps in assessing insulin production and resistance.")
-        st.text_input('BMI value', value=BMI, label='BMI value', help="Enter the Body Mass Index (BMI) value, calculated as weight in kg divided by the square of height in meters. It indicates body fat and health risk.")
-        st.text_input('Diabetes Pedigree Function value', value=DiabetesPedigreeFunction, label='Diabetes Pedigree Function value', help="Enter the diabetes pedigree function value, a measure of the genetic risk of diabetes based on family history.")
-        st.text_input('Age of the Person', value=Age, label='Age of the Person', help="Enter the age of the patient in years. This value should be a whole number.")
     st.write("Please fill in all the input fields with the appropriate values to get an accurate prediction.")
 
 
