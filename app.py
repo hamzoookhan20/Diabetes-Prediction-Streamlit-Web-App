@@ -35,10 +35,6 @@ if (selected == 'Diabetes Prediction'):
     
     # page title
     st.title('Diabetes Prediction using ML')
-    st.markdown("""
-    This application predicts the likelihood of diabetes based on various health metrics.
-    Please fill in all the input fields with the appropriate values to get an accurate prediction.
-    """)
     
     
     # getting the input data from the user
