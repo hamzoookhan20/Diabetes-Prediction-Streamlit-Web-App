@@ -82,7 +82,7 @@ if (selected == 'Diabetes Prediction'):
                     diab_diagnosis = 'The person is diabetic'
                 else:
                     diab_diagnosis = 'The person is not diabetic'
-    st.success(diab_diagnosis)
+    st.write(diab_diagnosis)
     st.info('Please fill in all the input fields with the appropriate values to get an accurate prediction.', icon="ℹ️")
 
 
