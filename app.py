@@ -87,6 +87,9 @@ if (selected == 'Diabetes Prediction'):
 
 # Diabetes Charts or Graphs Page
 if(selected == 'Graphs/Charts'):
+    
+    # page title
+    st.title('Diabetes Predictions Charts/Graphs')
 
 
 
