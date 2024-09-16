@@ -132,46 +132,6 @@ if selected == 'Graphs/Charts':
             pie_chart_image = save_plot_as_image(fig)
             st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
             
-            # Scatter plot to visualize relationships between features
-            fig, ax = plt.subplots(figsize=(8, 6))
-            ax.scatter(features[1], features[5], color='blue', label='Glucose vs BMI')
-            ax.set_xlabel('Glucose Level')
-            ax.set_ylabel('BMI')
-            ax.set_title('Scatter Plot: Glucose Level vs BMI')
-            ax.legend()
-            st.pyplot(fig)  # Display the scatter plot
-            
-            # Save scatter plot as image
-            scatter_plot_image = save_plot_as_image(fig)
-            st.download_button(label='Download Scatter Plot', data=scatter_plot_image, file_name='scatter_plot.png', mime='image/png')
-            
-            # Histogram for each feature
-            fig, ax = plt.subplots(figsize=(14, 8))
-            for i, feature in enumerate(features):
-                ax.hist([feature] * 100, bins=10, alpha=0.5, label=feature_names[i])  # Create dummy data for histogram
-            ax.set_title('Histogram of Features for Diabetic Case')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Frequency')
-            ax.legend(loc='upper right')
-            st.pyplot(fig)  # Display the histogram
-            
-            # Save histogram as image
-            histogram_image = save_plot_as_image(fig)
-            st.download_button(label='Download Histogram', data=histogram_image, file_name='histogram.png', mime='image/png')
-
-            # Box plot for each feature
-            fig, ax = plt.subplots(figsize=(14, 8))
-            data = [np.array(features)]  # Wrap features in a list to be compatible with boxplot
-            ax.boxplot(data, labels=feature_names, patch_artist=True)
-            ax.set_title('Box Plot of Features for Diabetic Case')
-            ax.set_xlabel('Feature')
-            ax.set_ylabel('Value')
-            st.pyplot(fig)  # Display the box plot
-            
-            # Save box plot as image
-            box_plot_image = save_plot_as_image(fig)
-            st.download_button(label='Download Box Plot', data=box_plot_image, file_name='box_plot.png', mime='image/png')
-            
     else:
         st.write("Great news! Based on the provided data, the individual is not diabetic. Here’s a look at some of the healthy feature metrics.")
         
@@ -201,46 +161,6 @@ if selected == 'Graphs/Charts':
             # Save pie chart as image
             pie_chart_image = save_plot_as_image(fig)
             st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='non_diabetic_pie_chart.png', mime='image/png')
-            
-            # Scatter plot to visualize relationships between features
-            fig, ax = plt.subplots(figsize=(8, 6))
-            ax.scatter(features[1], features[5], color='orange', label='Glucose vs BMI')
-            ax.set_xlabel('Glucose Level')
-            ax.set_ylabel('BMI')
-            ax.set_title('Scatter Plot: Glucose Level vs BMI')
-            ax.legend()
-            st.pyplot(fig)  # Display the scatter plot
-            
-            # Save scatter plot as image
-            scatter_plot_image = save_plot_as_image(fig)
-            st.download_button(label='Download Scatter Plot', data=scatter_plot_image, file_name='non_diabetic_scatter_plot.png', mime='image/png')
-            
-            # Histogram for each feature
-            fig, ax = plt.subplots(figsize=(14, 8))
-            for i, feature in enumerate(features):
-                ax.hist([feature] * 100, bins=10, alpha=0.5, label=feature_names[i])  # Create dummy data for histogram
-            ax.set_title('Histogram of Features for Non-Diabetic Case')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Frequency')
-            ax.legend(loc='upper right')
-            st.pyplot(fig)  # Display the histogram
-            
-            # Save histogram as image
-            histogram_image = save_plot_as_image(fig)
-            st.download_button(label='Download Histogram', data=histogram_image, file_name='non_diabetic_histogram.png', mime='image/png')
-
-            # Box plot for each feature
-            fig, ax = plt.subplots(figsize=(14, 8))
-            data = [np.array(features)]  # Wrap features in a list to be compatible with boxplot
-            ax.boxplot(data, labels=feature_names, patch_artist=True)
-            ax.set_title('Box Plot of Features for Non-Diabetic Case')
-            ax.set_xlabel('Feature')
-            ax.set_ylabel('Value')
-            st.pyplot(fig)  # Display the box plot
-            
-            # Save box plot as image
-            box_plot_image = save_plot_as_image(fig)
-            st.download_button(label='Download Box Plot', data=box_plot_image, file_name='non_diabetic_box_plot.png', mime='image/png')
 
     # Social media sharing with icons
     st.markdown("""
