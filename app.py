@@ -112,20 +112,15 @@ if selected == 'Graphs/Charts':
         features = st.session_state['features']
         feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
 
-        # Highlight the top 4 factors
-        sorted_features = sorted(zip(features, feature_names), reverse=True)
-        top_4_features = sorted_features[:4]
-        top_4_names, top_4_values = zip(*top_4_features)
-
         # Create two columns for the charts
         col1, col2 = st.columns(2)
         
         with col1:
-            # Bar chart for diabetic or non-diabetic factors
+            # Bar chart for all features
             fig, ax = plt.subplots(figsize=(10, 6))
             color = 'red' if st.session_state['diabetic'] else 'green'
             ax.barh(feature_names, features, color=color)
-            ax.set_title('Factors Contributing to Diabetes Diagnosis' if st.session_state['diabetic'] else 'Factors for Non-Diabetic Case')
+            ax.set_title('Feature Values' if st.session_state['diabetic'] else 'Feature Values for Non-Diabetic Case')
             ax.set_xlabel('Value')
             ax.set_ylabel('Feature')
             st.pyplot(fig)  # Display the chart
@@ -145,9 +140,9 @@ if selected == 'Graphs/Charts':
             pie_chart_image = save_plot_as_image(fig)
             st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
 
-        # Display top 4 factors below the charts
-        st.write("### Top 4 Most Effective Factors:")
-        for name, value in zip(top_4_names, top_4_values):
+        # Display details below the charts
+        st.write("### Detailed Feature Values:")
+        for name, value in zip(feature_names, features):
             if isinstance(value, (int, float)):  # Ensure value is numeric
                 st.write(f"- {name}: {value:.2f}")
             else:
