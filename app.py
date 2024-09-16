@@ -117,30 +117,35 @@ if selected == 'Graphs/Charts':
         top_4_features = sorted_features[:4]
         top_4_names, top_4_values = zip(*top_4_features)
 
-        # Bar chart for diabetic or non-diabetic factors
-        fig, ax = plt.subplots(figsize=(10, 6))
-        color = 'red' if st.session_state['diabetic'] else 'green'
-        ax.barh(feature_names, features, color=color)
-        ax.set_title('Factors Contributing to Diabetes Diagnosis' if st.session_state['diabetic'] else 'Factors for Non-Diabetic Case')
-        ax.set_xlabel('Value')
-        ax.set_ylabel('Feature')
-        st.pyplot(fig)  # Display the chart
+        # Create two columns for the charts
+        col1, col2 = st.columns(2)
         
-        # Save bar chart as image
-        bar_chart_image = save_plot_as_image(fig)
-        st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
+        with col1:
+            # Bar chart for diabetic or non-diabetic factors
+            fig, ax = plt.subplots(figsize=(10, 6))
+            color = 'red' if st.session_state['diabetic'] else 'green'
+            ax.barh(feature_names, features, color=color)
+            ax.set_title('Factors Contributing to Diabetes Diagnosis' if st.session_state['diabetic'] else 'Factors for Non-Diabetic Case')
+            ax.set_xlabel('Value')
+            ax.set_ylabel('Feature')
+            st.pyplot(fig)  # Display the chart
+            
+            # Save bar chart as image
+            bar_chart_image = save_plot_as_image(fig)
+            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
 
-        # Pie chart for feature distribution
-        fig, ax = plt.subplots(figsize=(8, 8))
-        ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
-        ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
-        st.pyplot(fig)  # Display the pie chart
-        
-        # Save pie chart as image
-        pie_chart_image = save_plot_as_image(fig)
-        st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
+        with col2:
+            # Pie chart for feature distribution
+            fig, ax = plt.subplots(figsize=(8, 8))
+            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+            ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
+            st.pyplot(fig)  # Display the pie chart
+            
+            # Save pie chart as image
+            pie_chart_image = save_plot_as_image(fig)
+            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
 
-        # Display top 4 factors
+        # Display top 4 factors below the charts
         st.write("### Top 4 Most Effective Factors:")
         for name, value in zip(top_4_names, top_4_values):
             st.write(f"- {name}: {value:.2f}")
@@ -157,5 +162,6 @@ if selected == 'Graphs/Charts':
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             """, unsafe_allow_html=True)
+
     else:
-        st.warning('Please make a prediction first to see the graphs.')
+        st.warning("No prediction results available. Please make a prediction on the Diabetes Prediction page first.")
