@@ -37,7 +37,8 @@ def colored_title(title, color):
 if selected == 'Diabetes Prediction':
     
     # Page title
-    st.title('Predicting Diabetes Onset using ML', '#007bff')
+    colored_title('Predicting Diabetes Onset using ML', '#007bff')
+    
     
     # Getting the input data from the user
     col1, col2, col3 = st.columns(3)
