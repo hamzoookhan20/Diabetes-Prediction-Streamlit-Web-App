@@ -19,7 +19,7 @@ diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 # sidebar for navigation
 with st.sidebar:
     
-    selected = option_menu('Diabetes Prediction System', 'Graphs',
+    selected = option_menu('Diabetes Prediction System',
                           
                           ['Diabetes Prediction',
                          ],
