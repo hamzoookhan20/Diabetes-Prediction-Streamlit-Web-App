@@ -94,7 +94,7 @@ if(selected == 'Graphs/Charts'):
     st.title('Diabetes Predictions Charts/Graphs')
 
 
-    if 'diabetic' in st.session_state and st.session_state['diabetic']:
+     if st.session_state['diabetic']:
         st.write("The person is diabetic. Showing relevant charts and graphs.")
         
         # Example: Display a random chart (you can replace this with real data)
@@ -102,10 +102,11 @@ if(selected == 'Graphs/Charts'):
         y = np.sin(x)
 
         fig, ax = plt.subplots()
-        ax.plot(x, y)
+        ax.plot(x, y, label='Sine Wave')
         ax.set_title('Example of a Chart for Diabetic Patients')
         ax.set_xlabel('X-axis')
         ax.set_ylabel('Y-axis')
+        ax.legend()
         
         st.pyplot(fig)  # Display the chart
         
