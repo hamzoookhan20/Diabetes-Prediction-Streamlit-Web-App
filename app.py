@@ -31,13 +31,13 @@ with st.sidebar:
 
 # Function to set title with color
 def colored_title(title, color):
-    st.markdown(f"<h1 style='color:{#007bff};'>{title}</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='color:{color};'>{title}</h1>", unsafe_allow_html=True)
 
 # Diabetes Prediction Page
 if selected == 'Diabetes Prediction':
     
     # Page title
-    st.title('Predicting Diabetes Onset using ML')
+    st.title('Predicting Diabetes Onset using ML', '#007bff')
     
     # Getting the input data from the user
     col1, col2, col3 = st.columns(3)
