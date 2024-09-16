@@ -37,8 +37,7 @@ def colored_title(title, color):
 if selected == 'Diabetes Prediction':
     
     # Page title
-    colored_title('Predicting Diabetes Onset using ML', '#007bff')
-    
+    st.title('Predicting Diabetes Onset using ML')
     
     # Getting the input data from the user
     col1, col2, col3 = st.columns(3)
@@ -103,7 +102,7 @@ if selected == 'Graphs/Charts':
     # Page title with color
     colored_title('Diabetes Predictions Charts/Graphs', '#007bff')  # Adjust color as needed
     
-    # Check if the user has a diagnosis
+    # Check if the user has made predictions
     if st.session_state['features']:
         features = st.session_state['features']
         feature_names = list(features.keys())
@@ -156,3 +155,5 @@ if selected == 'Graphs/Charts':
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             """, unsafe_allow_html=True)
+    else:
+        st.warning("Please make a prediction on the 'Diabetes Prediction' page before viewing the charts.")
