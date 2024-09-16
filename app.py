@@ -95,7 +95,7 @@ if(selected == 'Graphs/Charts'):
 
 
     # Check if the user is diagnosed as diabetic
-    if 'diabetic' in st.session_state and st.session_state['diabetic']:
+    if (diab_prediction[0] == 1) in st.session_state and st.session_state[(diab_prediction[0] == 1)]:
         st.write("The person is diabetic. Showing relevant charts and graphs.")
         
         # Example: Display a random chart (you can replace this with real data)
