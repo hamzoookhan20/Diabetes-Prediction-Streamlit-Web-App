@@ -10,6 +10,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 # Load diabetes_model.pkl file
 diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
@@ -89,6 +90,9 @@ if selected == 'Diabetes Prediction':
     st.write(diab_diagnosis)
     st.info('Please fill in all the input fields with the appropriate values to get an accurate prediction.', icon="ℹ️")
 
+    # Button to navigate to the Graphs/Charts page
+    st.markdown("[Go to Graphs/Charts Page](?selected=Graphs/Charts)")
+
 # Diabetes Charts or Graphs Page
 if selected == 'Graphs/Charts':
     
@@ -110,8 +114,22 @@ if selected == 'Graphs/Charts':
             ax.set_title('Factors Contributing to Diabetes Diagnosis')
             ax.set_xlabel('Value')
             ax.set_ylabel('Feature')
-            
             st.pyplot(fig)  # Display the chart
+            
+            # Pie chart for feature distribution
+            fig, ax = plt.subplots()
+            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+            ax.set_title('Feature Distribution for Diabetic Case')
+            st.pyplot(fig)  # Display the pie chart
+            
+            # Scatter plot to visualize relationships between some features
+            fig, ax = plt.subplots()
+            ax.scatter(features[1], features[5], color='blue', label='Glucose vs BMI')
+            ax.set_xlabel('Glucose Level')
+            ax.set_ylabel('BMI')
+            ax.set_title('Scatter Plot: Glucose Level vs BMI')
+            ax.legend()
+            st.pyplot(fig)  # Display the scatter plot
         
     else:
         st.write("The person is not diabetic. Showing factors for non-diabetic.")
@@ -127,5 +145,19 @@ if selected == 'Graphs/Charts':
             ax.set_title('Factors Contributing to Non-Diabetes')
             ax.set_xlabel('Value')
             ax.set_ylabel('Feature')
-            
             st.pyplot(fig)  # Display the chart
+            
+            # Pie chart for feature distribution
+            fig, ax = plt.subplots()
+            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+            ax.set_title('Feature Distribution for Non-Diabetic Case')
+            st.pyplot(fig)  # Display the pie chart
+            
+            # Scatter plot to visualize relationships between some features
+            fig, ax = plt.subplots()
+            ax.scatter(features[1], features[5], color='green', label='Glucose vs BMI')
+            ax.set_xlabel('Glucose Level')
+            ax.set_ylabel('BMI')
+            ax.set_title('Scatter Plot: Glucose Level vs BMI')
+            ax.legend()
+            st.pyplot(fig)  # Display the scatter plot
