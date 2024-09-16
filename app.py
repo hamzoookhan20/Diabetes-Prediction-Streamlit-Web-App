@@ -11,7 +11,7 @@ from streamlit_option_menu import option_menu
 
 
 
-diabetes_model = pickle.load(open('model.pkl', 'rb'))
+diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 
 
 
