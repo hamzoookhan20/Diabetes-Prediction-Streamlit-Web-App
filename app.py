@@ -115,33 +115,28 @@ if selected == 'Graphs/Charts':
         sorted_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)
         sorted_feature_names, sorted_feature_values = zip(*sorted_features)
 
-        # Create two columns for the charts
-        col1, col2 = st.columns(2)
+        # Bar chart for all features
+        fig, ax = plt.subplots(figsize=(10, 6))
+        color = 'red' if st.session_state['diabetic'] else 'green'
+        ax.barh(sorted_feature_names, sorted_feature_values, color=color)
+        ax.set_title('Feature Values' if st.session_state['diabetic'] else 'Feature Values for Non-Diabetic Case')
+        ax.set_xlabel('Value')
+        ax.set_ylabel('Feature')
+        st.pyplot(fig)  # Display the chart
         
-        with col1:
-            # Bar chart for all features
-            fig, ax = plt.subplots(figsize=(10, 6))
-            color = 'red' if st.session_state['diabetic'] else 'green'
-            ax.barh(sorted_feature_names, sorted_feature_values, color=color)
-            ax.set_title('Feature Values' if st.session_state['diabetic'] else 'Feature Values for Non-Diabetic Case')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Feature')
-            st.pyplot(fig)  # Display the chart
-            
-            # Save bar chart as image
-            bar_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
+        # Save bar chart as image
+        bar_chart_image = save_plot_as_image(fig)
+        st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
 
-        with col2:
-            # Pie chart for feature distribution
-            fig, ax = plt.subplots(figsize=(8, 8))
-            ax.pie(sorted_feature_values, labels=sorted_feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
-            ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
-            st.pyplot(fig)  # Display the pie chart
-            
-            # Save pie chart as image
-            pie_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
+        # Pie chart for feature distribution
+        fig, ax = plt.subplots(figsize=(8, 8))
+        ax.pie(sorted_feature_values, labels=sorted_feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+        ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
+        st.pyplot(fig)  # Display the pie chart
+        
+        # Save pie chart as image
+        pie_chart_image = save_plot_as_image(fig)
+        st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
 
         # Display detailed feature values below the charts
         st.write("### Detailed Feature Values:")
