@@ -76,7 +76,13 @@ if selected == 'Diabetes Prediction':
                 st.warning('Please fill in all the input fields to get an accurate prediction.')
             else:
                 # Convert inputs to float
-                features = [float(Pregnancies), float(Glucose), float(BloodPressure), float(SkinThickness), float(Insulin), float(BMI), float(DiabetesPedigreeFunction), float(Age)]
+                try:
+                    features = [float(Pregnancies), float(Glucose), float(BloodPressure), float(SkinThickness), float(Insulin), float(BMI), float(DiabetesPedigreeFunction), float(Age)]
+                except ValueError:
+                    st.error("Please enter valid numeric values.")
+                    st.session_state['diabetic'] = False
+                    st.session_state['features'] = None
+                    st.stop()
                 
                 # Perform prediction
                 diab_prediction = diabetes_model.predict([features])
@@ -110,7 +116,7 @@ if selected == 'Graphs/Charts':
         sorted_features = sorted(zip(features, feature_names), reverse=True)
         top_4_features = sorted_features[:4]
         top_4_names, top_4_values = zip(*top_4_features)
-        
+
         # Bar chart for diabetic or non-diabetic factors
         fig, ax = plt.subplots(figsize=(10, 6))
         color = 'red' if st.session_state['diabetic'] else 'green'
@@ -137,7 +143,8 @@ if selected == 'Graphs/Charts':
         # Display top 4 factors
         st.write("### Top 4 Most Effective Factors:")
         for name, value in zip(top_4_names, top_4_values):
-            st.write(f"- {name}: {value:.2f}")
+            if isinstance(value, (int, float)):  # Ensure value is numeric
+                st.write(f"- {name}: {value:.2f}")
 
         # Social media sharing with icons
         st.markdown("""
@@ -153,4 +160,3 @@ if selected == 'Graphs/Charts':
             """, unsafe_allow_html=True)
     else:
         st.warning('Please make a prediction first to see the graphs.')
-
