@@ -4,5 +4,4 @@ streamlit==1.36.0
 streamlit-option-menu==0.3.13
 scikit-learn==1.5.1
 protobuf==5.27.2
-pickle5==0.0.12
 
