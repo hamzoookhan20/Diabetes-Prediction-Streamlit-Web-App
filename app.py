@@ -86,7 +86,7 @@ if (selected == 'Diabetes Prediction'):
 
 
 # Diabetes Charts or Graphs Page
-if (selected == 'Graphs/Charts'):
+if(selected == 'Graphs/Charts'):
 
 
 
