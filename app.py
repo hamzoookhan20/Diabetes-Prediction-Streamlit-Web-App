@@ -13,7 +13,7 @@ from streamlit_option_menu import option_menu
 # loading the saved models
 @st.cache(allow_output_mutation=True)
 def load_model():
-    return pickle.load(open('diabetes_model.sav', 'rb'))
+    return pickle.load(open('model.pkl', 'rb'))
 
 # Load model
 diabetes_model = load_model()
