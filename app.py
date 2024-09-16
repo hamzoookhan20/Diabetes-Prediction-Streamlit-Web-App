@@ -13,6 +13,7 @@ diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 if 'diabetic' not in st.session_state:
     st.session_state['diabetic'] = False
     st.session_state['features'] = None  # To store the input features
+    st.session_state['feature_importance'] = None  # To store the importance of features
 
 # Function to save plot as image
 def save_plot_as_image(fig, filename='plot.png'):
@@ -82,6 +83,7 @@ if selected == 'Diabetes Prediction':
                     st.error("Please enter valid numeric values.")
                     st.session_state['diabetic'] = False
                     st.session_state['features'] = None
+                    st.session_state['feature_importance'] = None
                     st.stop()
                 
                 # Perform prediction
@@ -96,6 +98,7 @@ if selected == 'Diabetes Prediction':
 
                 # Store the features in session state for use in charts
                 st.session_state['features'] = features
+                st.session_state['feature_importance'] = dict(zip(['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age'], features))
 
     # Display the diagnosis
     st.write(diab_diagnosis)
@@ -111,6 +114,11 @@ if selected == 'Graphs/Charts':
     if st.session_state['features']:
         features = st.session_state['features']
         feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
+        feature_importance = st.session_state['feature_importance']
+
+        # Sort features by their importance (in this case, just their values)
+        sorted_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)
+        sorted_feature_names, sorted_feature_values = zip(*sorted_features)
 
         # Create two columns for the charts
         col1, col2 = st.columns(2)
@@ -119,7 +127,7 @@ if selected == 'Graphs/Charts':
             # Bar chart for all features
             fig, ax = plt.subplots(figsize=(10, 6))
             color = 'red' if st.session_state['diabetic'] else 'green'
-            ax.barh(feature_names, features, color=color)
+            ax.barh(sorted_feature_names, sorted_feature_values, color=color)
             ax.set_title('Feature Values' if st.session_state['diabetic'] else 'Feature Values for Non-Diabetic Case')
             ax.set_xlabel('Value')
             ax.set_ylabel('Feature')
@@ -132,7 +140,7 @@ if selected == 'Graphs/Charts':
         with col2:
             # Pie chart for feature distribution
             fig, ax = plt.subplots(figsize=(8, 8))
-            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+            ax.pie(sorted_feature_values, labels=sorted_feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
             ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
             
@@ -142,11 +150,8 @@ if selected == 'Graphs/Charts':
 
         # Display details below the charts
         st.write("### Detailed Feature Values:")
-        for name, value in zip(feature_names, features):
-            if isinstance(value, (int, float)):  # Ensure value is numeric
-                st.write(f"- {name}: {value:.2f}")
-            else:
-                st.write(f"- {name}: {value}")
+        for name, value in zip(sorted_feature_names, sorted_feature_values):
+            st.write(f"- {name}: {value:.2f}")
 
         # Social media sharing with icons
         st.markdown("""
@@ -160,5 +165,3 @@ if selected == 'Graphs/Charts':
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             """, unsafe_allow_html=True)
-    else:
-        st.warning("No prediction results available. Please make a prediction on the Diabetes Prediction page first.")
