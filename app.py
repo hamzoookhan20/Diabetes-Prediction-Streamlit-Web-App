@@ -2,7 +2,6 @@ import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
-import numpy as np
 import seaborn as sns
 import io
 
@@ -118,6 +117,9 @@ if selected == 'Graphs/Charts':
         sorted_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)
         sorted_feature_names, sorted_feature_values = zip(*sorted_features)
 
+        # Display charts in single column layout
+        st.write("### Feature Charts")
+
         # Bar chart for all features
         fig, ax = plt.subplots(figsize=(12, 8))
         color = 'red' if st.session_state['diabetic'] else 'green'
@@ -134,7 +136,7 @@ if selected == 'Graphs/Charts':
 
         # Pie chart for feature distribution with improved readability
         fig, ax = plt.subplots(figsize=(12, 12))
-        explode = [0.1 if i in [0, 1] else 0 for i in range(len(sorted_feature_values))]
+        explode = [0.1] * len(sorted_feature_values)  # Highlight all slices equally
         wedges, texts, autotexts = ax.pie(
             sorted_feature_values, 
             labels=sorted_feature_names, 
@@ -171,6 +173,7 @@ if selected == 'Graphs/Charts':
             <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-            """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+        
     else:
         st.warning('No prediction data available. Please make a prediction first.')
