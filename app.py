@@ -37,7 +37,7 @@ def colored_title(title, color):
 if selected == 'Diabetes Prediction':
     
     # Page title
-    colored_title('Predicting Diabetes Onset using ML', '#007bff')
+    st.title('Predicting Diabetes Onset using ML')
     
     # Getting the input data from the user
     col1, col2, col3 = st.columns(3)
@@ -128,9 +128,20 @@ if selected == 'Graphs/Charts':
         bar_chart_image = save_plot_as_image(fig)
         st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
 
-        # Pie chart for feature distribution
-        fig, ax = plt.subplots(figsize=(8, 8))
-        ax.pie(sorted_feature_values, labels=sorted_feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+        # Pie chart for feature distribution with improved readability
+        fig, ax = plt.subplots(figsize=(12, 8))
+        wedges, texts, autotexts = ax.pie(
+            sorted_feature_values, 
+            labels=sorted_feature_names, 
+            autopct='%1.1f%%', 
+            colors=sns.color_palette('pastel'),
+            startangle=140,
+            explode=[0.1 if i in [0, 1] else 0 for i in range(len(sorted_feature_values))]
+        )
+        
+        # Improve readability
+        plt.setp(autotexts, size=10, weight="bold")
+        plt.setp(texts, size=12)
         ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
         st.pyplot(fig)  # Display the pie chart
         
@@ -154,6 +165,7 @@ if selected == 'Graphs/Charts':
             <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-            """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+
     else:
-        st.warning("Please make a prediction on the 'Diabetes Prediction' page before viewing the charts.")
+        st.warning('No prediction data available. Please make a prediction first.')
