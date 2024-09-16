@@ -102,6 +102,9 @@ if selected == 'Graphs/Charts':
     # Page title with color
     colored_title('Diabetes Predictions Charts/Graphs', '#007bff')  # Adjust color as needed
     
+    # Warning to make predictions first
+    st.warning('Please make a prediction on the Diabetes Prediction page before viewing charts here.')
+    
     # Check if the user has made predictions
     if st.session_state['features']:
         features = st.session_state['features']
@@ -116,12 +119,13 @@ if selected == 'Graphs/Charts':
         sorted_feature_names, sorted_feature_values = zip(*sorted_features)
 
         # Bar chart for all features
-        fig, ax = plt.subplots(figsize=(10, 6))
+        fig, ax = plt.subplots(figsize=(12, 8))
         color = 'red' if st.session_state['diabetic'] else 'green'
         ax.barh(sorted_feature_names, sorted_feature_values, color=color)
         ax.set_title('Feature Values' if st.session_state['diabetic'] else 'Feature Values for Non-Diabetic Case')
         ax.set_xlabel('Value')
         ax.set_ylabel('Feature')
+        plt.tight_layout()  # Ensure layout is tight
         st.pyplot(fig)  # Display the chart
         
         # Save bar chart as image
@@ -129,20 +133,22 @@ if selected == 'Graphs/Charts':
         st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
 
         # Pie chart for feature distribution with improved readability
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots(figsize=(12, 12))
+        explode = [0.1 if i in [0, 1] else 0 for i in range(len(sorted_feature_values))]
         wedges, texts, autotexts = ax.pie(
             sorted_feature_values, 
             labels=sorted_feature_names, 
             autopct='%1.1f%%', 
             colors=sns.color_palette('pastel'),
             startangle=140,
-            explode=[0.1 if i in [0, 1] else 0 for i in range(len(sorted_feature_values))]
+            explode=explode
         )
         
         # Improve readability
         plt.setp(autotexts, size=10, weight="bold")
         plt.setp(texts, size=12)
         ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
+        plt.tight_layout()  # Ensure layout is tight
         st.pyplot(fig)  # Display the pie chart
         
         # Save pie chart as image
@@ -165,7 +171,6 @@ if selected == 'Graphs/Charts':
             <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-        """, unsafe_allow_html=True)
-
+            """, unsafe_allow_html=True)
     else:
         st.warning('No prediction data available. Please make a prediction first.')
