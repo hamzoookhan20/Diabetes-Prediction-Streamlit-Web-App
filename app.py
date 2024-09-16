@@ -21,7 +21,7 @@ with st.sidebar:
     
     selected = option_menu('Diabetes Prediction System',
                           
-                          ['Diabetes Prediction','Graphs',
+                          ['Diabetes Prediction','Graphs/Charts',
                          ],
                           icons=['activity','bar-chart','heart',],
                           default_index=0)
@@ -85,6 +85,8 @@ if (selected == 'Diabetes Prediction'):
 
 
 
+# Diabetes Charts or Graphs Page
+if (selected == 'Graphs/Charts'):
 
 
 
