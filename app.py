@@ -148,7 +148,10 @@ if selected == 'Graphs/Charts':
         # Display top 4 factors below the charts
         st.write("### Top 4 Most Effective Factors:")
         for name, value in zip(top_4_names, top_4_values):
-            st.write(f"- {name}: {value:.2f}")
+            if isinstance(value, (int, float)):  # Ensure value is numeric
+                st.write(f"- {name}: {value:.2f}")
+            else:
+                st.write(f"- {name}: {value}")
 
         # Social media sharing with icons
         st.markdown("""
@@ -162,6 +165,5 @@ if selected == 'Graphs/Charts':
             <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
             """, unsafe_allow_html=True)
-
     else:
         st.warning("No prediction results available. Please make a prediction on the Diabetes Prediction page first.")
