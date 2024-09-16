@@ -17,6 +17,7 @@ diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 # Initialize session state for diabetic status
 if 'diabetic' not in st.session_state:
     st.session_state['diabetic'] = False
+    st.session_state['features'] = None  # To store the input features
 
 # Sidebar for navigation
 with st.sidebar:
@@ -68,8 +69,11 @@ if selected == 'Diabetes Prediction':
             if Pregnancies == '' or Glucose == '' or BloodPressure == '' or SkinThickness == '' or Insulin == '' or BMI == '' or DiabetesPedigreeFunction == '' or Age == '':
                 st.warning('Please fill in all the input fields to get an accurate prediction.')
             else:
+                # Convert inputs to float
+                features = [float(Pregnancies), float(Glucose), float(BloodPressure), float(SkinThickness), float(Insulin), float(BMI), float(DiabetesPedigreeFunction), float(Age)]
+                
                 # Perform prediction
-                diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
+                diab_prediction = diabetes_model.predict([features])
 
                 if diab_prediction[0] == 1:
                     diab_diagnosis = 'The person is diabetic'
@@ -77,6 +81,9 @@ if selected == 'Diabetes Prediction':
                 else:
                     diab_diagnosis = 'The person is not diabetic'
                     st.session_state['diabetic'] = False  # Store the result in session state
+
+                # Store the features in session state for use on the Graphs/Charts page
+                st.session_state['features'] = features
 
     # Display the diagnosis
     st.write(diab_diagnosis)
@@ -92,18 +99,33 @@ if selected == 'Graphs/Charts':
     if 'diabetic' in st.session_state and st.session_state['diabetic']:
         st.write("The person is diabetic. Showing relevant charts and graphs.")
         
-        # Example: Display a random chart (you can replace this with real data)
-        x = np.linspace(0, 10, 100)
-        y = np.sin(x)
-
-        fig, ax = plt.subplots()
-        ax.plot(x, y, label='Sine Wave')
-        ax.set_title('Example of a Chart for Diabetic Patients')
-        ax.set_xlabel('X-axis')
-        ax.set_ylabel('Y-axis')
-        ax.legend()
-        
-        st.pyplot(fig)  # Display the chart
+        # Check if features are available
+        if st.session_state['features']:
+            features = st.session_state['features']
+            feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
+            
+            # Plot bar chart for diabetic factors
+            fig, ax = plt.subplots()
+            ax.barh(feature_names, features, color='red')
+            ax.set_title('Factors Contributing to Diabetes Diagnosis')
+            ax.set_xlabel('Value')
+            ax.set_ylabel('Feature')
+            
+            st.pyplot(fig)  # Display the chart
         
     else:
-        st.write("No diabetic data to display. Complete the prediction on the 'Diabetes Prediction' page.")
+        st.write("The person is not diabetic. Showing factors for non-diabetic.")
+        
+        # Check if features are available
+        if st.session_state['features']:
+            features = st.session_state['features']
+            feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
+            
+            # Plot bar chart for non-diabetic factors
+            fig, ax = plt.subplots()
+            ax.barh(feature_names, features, color='green')
+            ax.set_title('Factors Contributing to Non-Diabetes')
+            ax.set_xlabel('Value')
+            ax.set_ylabel('Feature')
+            
+            st.pyplot(fig)  # Display the chart
