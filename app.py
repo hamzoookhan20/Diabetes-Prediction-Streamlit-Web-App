@@ -21,7 +21,7 @@ with st.sidebar:
     
     selected = option_menu('Diabetes Prediction System',
                           
-                          ['Diabetes Prediction',
+                          ['Diabetes Prediction','Graphs',
                          ],
                           icons=['activity','person','heart',],
                           default_index=0)
