@@ -33,86 +33,12 @@ with st.sidebar:
 def colored_title(title, color):
     st.markdown(f"<h1 style='color:{color};'>{title}</h1>", unsafe_allow_html=True)
 
-# Diabetes Prediction Page
-if selected == 'Diabetes Prediction':
-    
-    # Page title with color
-    colored_title('Predicting Diabetes Onset using ML', '#007bff')  # Adjust color as needed
-    
-    # Getting the input data from the user
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        Pregnancies = st.text_input('Number of Pregnancies', help="Enter the number of times the patient has been pregnant.")
-        
-    with col2:
-        Glucose = st.text_input('Glucose Level', help="Enter the plasma glucose concentration measured two hours after an oral glucose tolerance test.")
-    
-    with col3:
-        BloodPressure = st.text_input('Blood Pressure value', help="Enter the diastolic blood pressure value in mm Hg. This is the blood pressure when the heart is resting between beats.")
-    
-    with col1:
-        SkinThickness = st.text_input('Skin Thickness value', help="Enter the thickness of the triceps skin fold in mm. This value helps in estimating body fat.")
-    
-    with col2:
-        Insulin = st.text_input('Insulin Level', help="Enter the 2-hour serum insulin level in mu U/ml. This helps in assessing insulin production and resistance.")
-    
-    with col3:
-        BMI = st.text_input('BMI value', help="Enter the Body Mass Index (BMI) value, calculated as weight in kg divided by the square of height in meters. It indicates body fat and health risk.")
-    
-    with col1:
-        DiabetesPedigreeFunction = st.text_input('Diabetes Pedigree Function value', help="Enter the diabetes pedigree function value, a measure of the genetic risk of diabetes based on family history.")
-    
-    with col2:
-        Age = st.text_input('Age of the Person', help="Enter the age of the patient in years. This value should be a whole number.")
-    
-    # Code for prediction
-    diab_diagnosis = ''
-
-    # Creating a button for Prediction
-    if st.button('Diabetes Test Result'):
-        with st.spinner('Predicting...'):
-            # Check if all fields are filled
-            if Pregnancies == '' or Glucose == '' or BloodPressure == '' or SkinThickness == '' or Insulin == '' or BMI == '' or DiabetesPedigreeFunction == '' or Age == '':
-                st.warning('Please fill in all the input fields to get an accurate prediction.')
-            else:
-                # Convert inputs to float
-                try:
-                    features = [float(Pregnancies), float(Glucose), float(BloodPressure), float(SkinThickness), float(Insulin), float(BMI), float(DiabetesPedigreeFunction), float(Age)]
-                except ValueError:
-                    st.error("Please enter valid numeric values.")
-                    st.session_state['diabetic'] = False
-                    st.session_state['features'] = None
-                    st.session_state['feature_importance'] = None
-                    st.stop()
-                
-                # Perform prediction
-                diab_prediction = diabetes_model.predict([features])
-
-                if diab_prediction[0] == 1:
-                    diab_diagnosis = 'The person is diabetic'
-                    st.session_state['diabetic'] = True  # Store the result in session state
-                else:
-                    diab_diagnosis = 'The person is not diabetic'
-                    st.session_state['diabetic'] = False  # Store the result in session state
-
-                # Store the features in session state for use in charts
-                st.session_state['features'] = features
-                st.session_state['feature_importance'] = dict(zip(['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age'], features))
-
-    # Display the diagnosis
-    st.write(diab_diagnosis)
-    st.info('You can view the charts based on your prediction result on the Graphs/Charts page.', icon="ℹ️")
-
 # Graphs/Charts Page
 if selected == 'Graphs/Charts':
     
     # Page title with color
     colored_title('Diabetes Predictions Charts/Graphs', '#007bff')  # Adjust color as needed
     
-    # Navigation back to prediction page
-    st.write("Return to the [Diabetes Prediction Page](#Diabetes-Prediction)")
-
     # Check if the user has a diagnosis
     if st.session_state['features']:
         features = st.session_state['features']
@@ -151,7 +77,7 @@ if selected == 'Graphs/Charts':
             pie_chart_image = save_plot_as_image(fig)
             st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
 
-        # Display details below the charts
+        # Display detailed feature values below the charts
         st.write("### Detailed Feature Values:")
         for name, value in zip(sorted_feature_names, sorted_feature_values):
             st.write(f"- {name}: {value:.2f}")
