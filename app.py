@@ -101,15 +101,15 @@ if selected == 'Graphs/Charts':
     
     # Check if the user is diagnosed as diabetic
     if 'diabetic' in st.session_state and st.session_state['diabetic']:
-        st.write("The person is diabetic. Showing relevant charts and graphs.")
+        st.write("The person is diabetic. Here are the detailed charts and graphs showing factors contributing to diabetes.")
         
         # Check if features are available
         if st.session_state['features']:
             features = st.session_state['features']
             feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
             
-            # Plot bar chart for diabetic factors
-            fig, ax = plt.subplots()
+            # Bar chart for diabetic factors
+            fig, ax = plt.subplots(figsize=(10, 6))
             ax.barh(feature_names, features, color='red')
             ax.set_title('Factors Contributing to Diabetes Diagnosis')
             ax.set_xlabel('Value')
@@ -117,30 +117,49 @@ if selected == 'Graphs/Charts':
             st.pyplot(fig)  # Display the chart
             
             # Pie chart for feature distribution
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(8, 8))
             ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
             ax.set_title('Feature Distribution for Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
             
             # Scatter plot to visualize relationships between some features
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(8, 6))
             ax.scatter(features[1], features[5], color='blue', label='Glucose vs BMI')
             ax.set_xlabel('Glucose Level')
             ax.set_ylabel('BMI')
             ax.set_title('Scatter Plot: Glucose Level vs BMI')
             ax.legend()
             st.pyplot(fig)  # Display the scatter plot
+            
+            # Histogram for each feature
+            fig, ax = plt.subplots(figsize=(14, 8))
+            for i, feature in enumerate(features):
+                ax.hist(features[i], bins=10, alpha=0.5, label=feature_names[i])
+            ax.set_title('Histogram of Features for Diabetic Case')
+            ax.set_xlabel('Value')
+            ax.set_ylabel('Frequency')
+            ax.legend(loc='upper right')
+            st.pyplot(fig)  # Display the histogram
+
+            # Box plot for each feature
+            fig, ax = plt.subplots(figsize=(14, 8))
+            data = np.array(features).reshape(-1, 1)
+            ax.boxplot(data, labels=feature_names, patch_artist=True)
+            ax.set_title('Box Plot of Features for Diabetic Case')
+            ax.set_xlabel('Feature')
+            ax.set_ylabel('Value')
+            st.pyplot(fig)  # Display the box plot
         
     else:
-        st.write("The person is not diabetic. Showing factors for non-diabetic.")
+        st.write("Great news! Based on the provided data, the individual is not diabetic. Here’s a look at some of the healthy feature metrics.")
         
         # Check if features are available
         if st.session_state['features']:
             features = st.session_state['features']
             feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
             
-            # Plot bar chart for non-diabetic factors
-            fig, ax = plt.subplots()
+            # Bar chart for non-diabetic factors
+            fig, ax = plt.subplots(figsize=(10, 6))
             ax.barh(feature_names, features, color='green')
             ax.set_title('Factors Contributing to Non-Diabetes')
             ax.set_xlabel('Value')
@@ -148,16 +167,35 @@ if selected == 'Graphs/Charts':
             st.pyplot(fig)  # Display the chart
             
             # Pie chart for feature distribution
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(8, 8))
             ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
             ax.set_title('Feature Distribution for Non-Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
             
             # Scatter plot to visualize relationships between some features
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(8, 6))
             ax.scatter(features[1], features[5], color='green', label='Glucose vs BMI')
             ax.set_xlabel('Glucose Level')
             ax.set_ylabel('BMI')
             ax.set_title('Scatter Plot: Glucose Level vs BMI')
             ax.legend()
             st.pyplot(fig)  # Display the scatter plot
+            
+            # Histogram for each feature
+            fig, ax = plt.subplots(figsize=(14, 8))
+            for i, feature in enumerate(features):
+                ax.hist(features[i], bins=10, alpha=0.5, label=feature_names[i])
+            ax.set_title('Histogram of Features for Non-Diabetic Case')
+            ax.set_xlabel('Value')
+            ax.set_ylabel('Frequency')
+            ax.legend(loc='upper right')
+            st.pyplot(fig)  # Display the histogram
+
+            # Box plot for each feature
+            fig, ax = plt.subplots(figsize=(14, 8))
+            data = np.array(features).reshape(-1, 1)
+            ax.boxplot(data, labels=feature_names, patch_artist=True)
+            ax.set_title('Box Plot of Features for Non-Diabetic Case')
+            ax.set_xlabel('Feature')
+            ax.set_ylabel('Value')
+            st.pyplot(fig)  # Display the box plot
