@@ -94,8 +94,7 @@ if(selected == 'Graphs/Charts'):
     st.title('Diabetes Predictions Charts/Graphs')
 
 
-    # Check if the user is diagnosed as diabetic
-    if (diab_prediction[0] == 1) in st.session_state and st.session_state[(diab_prediction[0] == 1)]:
+    if 'diabetic' in st.session_state and st.session_state['diabetic']:
         st.write("The person is diabetic. Showing relevant charts and graphs.")
         
         # Example: Display a random chart (you can replace this with real data)
@@ -104,11 +103,14 @@ if(selected == 'Graphs/Charts'):
 
         fig, ax = plt.subplots()
         ax.plot(x, y)
-        st.pyplot(fig)
+        ax.set_title('Example of a Chart for Diabetic Patients')
+        ax.set_xlabel('X-axis')
+        ax.set_ylabel('Y-axis')
+        
+        st.pyplot(fig)  # Display the chart
         
     else:
         st.write("No diabetic data to display. Complete the prediction on the 'Diabetes Prediction' page.")
-
 
 
 
