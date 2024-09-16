@@ -122,7 +122,7 @@ if selected == 'Graphs/Charts':
             ax.set_title('Feature Distribution for Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
             
-            # Scatter plot to visualize relationships between some features
+            # Scatter plot to visualize relationships between features
             fig, ax = plt.subplots(figsize=(8, 6))
             ax.scatter(features[1], features[5], color='blue', label='Glucose vs BMI')
             ax.set_xlabel('Glucose Level')
@@ -134,7 +134,7 @@ if selected == 'Graphs/Charts':
             # Histogram for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
             for i, feature in enumerate(features):
-                ax.hist(features[i], bins=10, alpha=0.5, label=feature_names[i])
+                ax.hist([feature] * 100, bins=10, alpha=0.5, label=feature_names[i])  # Create dummy data for histogram
             ax.set_title('Histogram of Features for Diabetic Case')
             ax.set_xlabel('Value')
             ax.set_ylabel('Frequency')
@@ -143,7 +143,7 @@ if selected == 'Graphs/Charts':
 
             # Box plot for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
-            data = np.array(features).reshape(-1, 1)
+            data = [np.array(features)]  # Wrap features in a list to be compatible with boxplot
             ax.boxplot(data, labels=feature_names, patch_artist=True)
             ax.set_title('Box Plot of Features for Diabetic Case')
             ax.set_xlabel('Feature')
@@ -172,7 +172,7 @@ if selected == 'Graphs/Charts':
             ax.set_title('Feature Distribution for Non-Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
             
-            # Scatter plot to visualize relationships between some features
+            # Scatter plot to visualize relationships between features
             fig, ax = plt.subplots(figsize=(8, 6))
             ax.scatter(features[1], features[5], color='green', label='Glucose vs BMI')
             ax.set_xlabel('Glucose Level')
@@ -184,7 +184,7 @@ if selected == 'Graphs/Charts':
             # Histogram for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
             for i, feature in enumerate(features):
-                ax.hist(features[i], bins=10, alpha=0.5, label=feature_names[i])
+                ax.hist([feature] * 100, bins=10, alpha=0.5, label=feature_names[i])  # Create dummy data for histogram
             ax.set_title('Histogram of Features for Non-Diabetic Case')
             ax.set_xlabel('Value')
             ax.set_ylabel('Frequency')
@@ -193,7 +193,7 @@ if selected == 'Graphs/Charts':
 
             # Box plot for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
-            data = np.array(features).reshape(-1, 1)
+            data = [np.array(features)]  # Wrap features in a list to be compatible with boxplot
             ax.boxplot(data, labels=feature_names, patch_artist=True)
             ax.set_title('Box Plot of Features for Non-Diabetic Case')
             ax.set_xlabel('Feature')
