@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun July 16 05:18:00 2024
-
-@author: Muhammad Hamza
-"""
-
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -248,9 +241,16 @@ if selected == 'Graphs/Charts':
             # Save box plot as image
             box_plot_image = save_plot_as_image(fig)
             st.download_button(label='Download Box Plot', data=box_plot_image, file_name='non_diabetic_box_plot.png', mime='image/png')
-            
-    # Social media sharing
-    st.markdown("### Share your results!")
-    st.markdown("[Share on Twitter](https://twitter.com/intent/tweet?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit)")
-    st.markdown("[Share on Facebook](https://www.facebook.com/sharer/sharer.php?u=your_app_url)")
-    st.markdown("[Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=your_app_url)")
+
+    # Social media sharing with icons
+    st.markdown("""
+        ### Share your results!
+        <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
+        <img src="https://img.icons8.com/ios-filled/50/000000/twitter.png" alt="Twitter" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=your_app_url" target="_blank">
+        <img src="https://img.icons8.com/ios-filled/50/000000/facebook.png" alt="Facebook" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=your_app_url" target="_blank">
+        <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+        <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
+        <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+        """, unsafe_allow_html=True)
