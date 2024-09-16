@@ -95,7 +95,7 @@ if(selected == 'Graphs/Charts'):
 
 
      if st.session_state['diabetic']:
-        st.write("The person is diabetic. Showing relevant charts and graphs.")
+         st.write("The person is diabetic. Showing relevant charts and graphs.")
         
         # Example: Display a random chart (you can replace this with real data)
         x = np.linspace(0, 10, 100)
