@@ -23,7 +23,7 @@ with st.sidebar:
                           
                           ['Diabetes Prediction','Graphs',
                          ],
-                          icons=['activity','charts','heart',],
+                          icons=['activity','bar-chart','heart',],
                           default_index=0)
     
     
