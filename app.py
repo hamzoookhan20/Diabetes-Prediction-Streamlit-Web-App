@@ -95,10 +95,6 @@ if selected == 'Diabetes Prediction':
     st.write(diab_diagnosis)
     st.info('You can view the charts based on your prediction result on the Graphs/Charts page.', icon="ℹ️")
 
-    # Navigation to Graphs/Charts page
-    if st.session_state['features']:
-        st.markdown("[Go to Charts/Graphs Page](#Graphs/Charts)", unsafe_allow_html=True)
-
 # Graphs/Charts Page
 if selected == 'Graphs/Charts':
     
@@ -109,6 +105,11 @@ if selected == 'Graphs/Charts':
     if st.session_state['features']:
         features = st.session_state['features']
         feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
+
+        # Highlight the top 4 factors
+        sorted_features = sorted(zip(features, feature_names), reverse=True)
+        top_4_features = sorted_features[:4]
+        top_4_names, top_4_values = zip(*top_4_features)
         
         # Bar chart for diabetic or non-diabetic factors
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -132,6 +133,11 @@ if selected == 'Graphs/Charts':
         # Save pie chart as image
         pie_chart_image = save_plot_as_image(fig)
         st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
+
+        # Display top 4 factors
+        st.write("### Top 4 Most Effective Factors:")
+        for name, value in zip(top_4_names, top_4_values):
+            st.write(f"- {name}: {value:.2f}")
 
         # Social media sharing with icons
         st.markdown("""
