@@ -11,6 +11,8 @@ from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 
 # Load diabetes_model.pkl file
 diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
@@ -19,6 +21,13 @@ diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 if 'diabetic' not in st.session_state:
     st.session_state['diabetic'] = False
     st.session_state['features'] = None  # To store the input features
+
+# Function to save plot as image
+def save_plot_as_image(fig, filename='plot.png'):
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    return buf
 
 # Sidebar for navigation
 with st.sidebar:
@@ -116,11 +125,19 @@ if selected == 'Graphs/Charts':
             ax.set_ylabel('Feature')
             st.pyplot(fig)  # Display the chart
             
+            # Save bar chart as image
+            bar_chart_image = save_plot_as_image(fig)
+            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
+
             # Pie chart for feature distribution
             fig, ax = plt.subplots(figsize=(8, 8))
             ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
             ax.set_title('Feature Distribution for Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
+            
+            # Save pie chart as image
+            pie_chart_image = save_plot_as_image(fig)
+            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
             
             # Scatter plot to visualize relationships between features
             fig, ax = plt.subplots(figsize=(8, 6))
@@ -131,6 +148,10 @@ if selected == 'Graphs/Charts':
             ax.legend()
             st.pyplot(fig)  # Display the scatter plot
             
+            # Save scatter plot as image
+            scatter_plot_image = save_plot_as_image(fig)
+            st.download_button(label='Download Scatter Plot', data=scatter_plot_image, file_name='scatter_plot.png', mime='image/png')
+            
             # Histogram for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
             for i, feature in enumerate(features):
@@ -140,6 +161,10 @@ if selected == 'Graphs/Charts':
             ax.set_ylabel('Frequency')
             ax.legend(loc='upper right')
             st.pyplot(fig)  # Display the histogram
+            
+            # Save histogram as image
+            histogram_image = save_plot_as_image(fig)
+            st.download_button(label='Download Histogram', data=histogram_image, file_name='histogram.png', mime='image/png')
 
             # Box plot for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
@@ -149,7 +174,11 @@ if selected == 'Graphs/Charts':
             ax.set_xlabel('Feature')
             ax.set_ylabel('Value')
             st.pyplot(fig)  # Display the box plot
-        
+            
+            # Save box plot as image
+            box_plot_image = save_plot_as_image(fig)
+            st.download_button(label='Download Box Plot', data=box_plot_image, file_name='box_plot.png', mime='image/png')
+            
     else:
         st.write("Great news! Based on the provided data, the individual is not diabetic. Here’s a look at some of the healthy feature metrics.")
         
@@ -161,10 +190,14 @@ if selected == 'Graphs/Charts':
             # Bar chart for non-diabetic factors
             fig, ax = plt.subplots(figsize=(10, 6))
             ax.barh(feature_names, features, color='green')
-            ax.set_title('Factors Contributing to Non-Diabetes')
+            ax.set_title('Factors for Non-Diabetic Case')
             ax.set_xlabel('Value')
             ax.set_ylabel('Feature')
             st.pyplot(fig)  # Display the chart
+            
+            # Save bar chart as image
+            bar_chart_image = save_plot_as_image(fig)
+            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='non_diabetic_bar_chart.png', mime='image/png')
             
             # Pie chart for feature distribution
             fig, ax = plt.subplots(figsize=(8, 8))
@@ -172,14 +205,22 @@ if selected == 'Graphs/Charts':
             ax.set_title('Feature Distribution for Non-Diabetic Case')
             st.pyplot(fig)  # Display the pie chart
             
+            # Save pie chart as image
+            pie_chart_image = save_plot_as_image(fig)
+            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='non_diabetic_pie_chart.png', mime='image/png')
+            
             # Scatter plot to visualize relationships between features
             fig, ax = plt.subplots(figsize=(8, 6))
-            ax.scatter(features[1], features[5], color='green', label='Glucose vs BMI')
+            ax.scatter(features[1], features[5], color='orange', label='Glucose vs BMI')
             ax.set_xlabel('Glucose Level')
             ax.set_ylabel('BMI')
             ax.set_title('Scatter Plot: Glucose Level vs BMI')
             ax.legend()
             st.pyplot(fig)  # Display the scatter plot
+            
+            # Save scatter plot as image
+            scatter_plot_image = save_plot_as_image(fig)
+            st.download_button(label='Download Scatter Plot', data=scatter_plot_image, file_name='non_diabetic_scatter_plot.png', mime='image/png')
             
             # Histogram for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
@@ -190,6 +231,10 @@ if selected == 'Graphs/Charts':
             ax.set_ylabel('Frequency')
             ax.legend(loc='upper right')
             st.pyplot(fig)  # Display the histogram
+            
+            # Save histogram as image
+            histogram_image = save_plot_as_image(fig)
+            st.download_button(label='Download Histogram', data=histogram_image, file_name='non_diabetic_histogram.png', mime='image/png')
 
             # Box plot for each feature
             fig, ax = plt.subplots(figsize=(14, 8))
@@ -199,3 +244,13 @@ if selected == 'Graphs/Charts':
             ax.set_xlabel('Feature')
             ax.set_ylabel('Value')
             st.pyplot(fig)  # Display the box plot
+            
+            # Save box plot as image
+            box_plot_image = save_plot_as_image(fig)
+            st.download_button(label='Download Box Plot', data=box_plot_image, file_name='non_diabetic_box_plot.png', mime='image/png')
+            
+    # Social media sharing
+    st.markdown("### Share your results!")
+    st.markdown("[Share on Twitter](https://twitter.com/intent/tweet?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit)")
+    st.markdown("[Share on Facebook](https://www.facebook.com/sharer/sharer.php?u=your_app_url)")
+    st.markdown("[Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=your_app_url)")
