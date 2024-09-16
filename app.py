@@ -28,11 +28,15 @@ with st.sidebar:
                           icons=['activity', 'bar-chart'],
                           default_index=0)
 
+# Function to set title with color
+def colored_title(title, color):
+    st.markdown(f"<h1 style='color:{color};'>{title}</h1>", unsafe_allow_html=True)
+
 # Diabetes Prediction Page
 if selected == 'Diabetes Prediction':
     
-    # Page title
-    st.title('Predicting Diabetes Onset using ML')
+    # Page title with color
+    colored_title('Predicting Diabetes Onset using ML', '#007bff')  # Adjust color as needed
     
     # Getting the input data from the user
     col1, col2, col3 = st.columns(3)
@@ -84,94 +88,63 @@ if selected == 'Diabetes Prediction':
                     diab_diagnosis = 'The person is not diabetic'
                     st.session_state['diabetic'] = False  # Store the result in session state
 
-                # Store the features in session state for use on the Graphs/Charts page
+                # Store the features in session state for use in charts
                 st.session_state['features'] = features
 
     # Display the diagnosis
     st.write(diab_diagnosis)
-    st.info('Please fill in all the input fields with the appropriate values to get an accurate prediction.', icon="ℹ️")
+    st.info('You can view the charts based on your prediction result on the Graphs/Charts page.', icon="ℹ️")
 
-    # Button to navigate to the Graphs/Charts page
-    if st.button('Go to Graphs/Charts Page'):
-        st.session_state['page'] = 'Graphs/Charts'
-        st.experimental_rerun()
+    # Navigation to Graphs/Charts page
+    if st.session_state['features']:
+        st.markdown("[Go to Charts/Graphs Page](#Graphs/Charts)", unsafe_allow_html=True)
 
-# Diabetes Charts or Graphs Page
+# Graphs/Charts Page
 if selected == 'Graphs/Charts':
     
-    # Page title
-    st.title('Diabetes Predictions Charts/Graphs')
+    # Page title with color
+    colored_title('Diabetes Predictions Charts/Graphs', '#007bff')  # Adjust color as needed
     
-    # Check if the user is diagnosed as diabetic
-    if 'diabetic' in st.session_state and st.session_state['diabetic']:
-        st.write("The person is diabetic. Here are the detailed charts and graphs showing factors contributing to diabetes.")
+    # Check if the user has a diagnosis
+    if st.session_state['features']:
+        features = st.session_state['features']
+        feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
         
-        # Check if features are available
-        if st.session_state['features']:
-            features = st.session_state['features']
-            feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
-            
-            # Bar chart for diabetic factors
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.barh(feature_names, features, color='red')
-            ax.set_title('Factors Contributing to Diabetes Diagnosis')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Feature')
-            st.pyplot(fig)  # Display the chart
-            
-            # Save bar chart as image
-            bar_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
+        # Bar chart for diabetic or non-diabetic factors
+        fig, ax = plt.subplots(figsize=(10, 6))
+        color = 'red' if st.session_state['diabetic'] else 'green'
+        ax.barh(feature_names, features, color=color)
+        ax.set_title('Factors Contributing to Diabetes Diagnosis' if st.session_state['diabetic'] else 'Factors for Non-Diabetic Case')
+        ax.set_xlabel('Value')
+        ax.set_ylabel('Feature')
+        st.pyplot(fig)  # Display the chart
+        
+        # Save bar chart as image
+        bar_chart_image = save_plot_as_image(fig)
+        st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
 
-            # Pie chart for feature distribution
-            fig, ax = plt.subplots(figsize=(8, 8))
-            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
-            ax.set_title('Feature Distribution for Diabetic Case')
-            st.pyplot(fig)  # Display the pie chart
-            
-            # Save pie chart as image
-            pie_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
-            
+        # Pie chart for feature distribution
+        fig, ax = plt.subplots(figsize=(8, 8))
+        ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+        ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
+        st.pyplot(fig)  # Display the pie chart
+        
+        # Save pie chart as image
+        pie_chart_image = save_plot_as_image(fig)
+        st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
+
+        # Social media sharing with icons
+        st.markdown("""
+            ### Share your results!
+            <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
+            <img src="https://img.icons8.com/ios-filled/50/000000/twitter.png" alt="Twitter" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=your_app_url" target="_blank">
+            <img src="https://img.icons8.com/ios-filled/50/000000/facebook.png" alt="Facebook" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=your_app_url" target="_blank">
+            <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+            <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
+            <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
+            """, unsafe_allow_html=True)
     else:
-        st.write("Great news! Based on the provided data, the individual is not diabetic. Here’s a look at some of the healthy feature metrics.")
-        
-        # Check if features are available
-        if st.session_state['features']:
-            features = st.session_state['features']
-            feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
-            
-            # Bar chart for non-diabetic factors
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.barh(feature_names, features, color='green')
-            ax.set_title('Factors for Non-Diabetic Case')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Feature')
-            st.pyplot(fig)  # Display the chart
-            
-            # Save bar chart as image
-            bar_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='non_diabetic_bar_chart.png', mime='image/png')
-            
-            # Pie chart for feature distribution
-            fig, ax = plt.subplots(figsize=(8, 8))
-            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
-            ax.set_title('Feature Distribution for Non-Diabetic Case')
-            st.pyplot(fig)  # Display the pie chart
-            
-            # Save pie chart as image
-            pie_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='non_diabetic_pie_chart.png', mime='image/png')
+        st.warning('Please make a prediction first to see the graphs.')
 
-    # Social media sharing with icons
-    st.markdown("""
-        ### Share your results!
-        <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
-        <img src="https://img.icons8.com/ios-filled/50/000000/twitter.png" alt="Twitter" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=your_app_url" target="_blank">
-        <img src="https://img.icons8.com/ios-filled/50/000000/facebook.png" alt="Facebook" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=your_app_url" target="_blank">
-        <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-        <a href="https://wa.me/?text=Check%20out%20my%20diabetes%20prediction%20results%20with%20Streamlit%20app!%20%23DiabetesPrediction%20%23Streamlit" target="_blank">
-        <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" style="vertical-align:middle; width: 30px; height: 30px;"/></a>
-        """, unsafe_allow_html=True)
