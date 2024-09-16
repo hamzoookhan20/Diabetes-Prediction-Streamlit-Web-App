@@ -8,6 +8,8 @@ Created on Sun July  16 05:18:00 2024
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 # Load daibetes_model.pkl file
