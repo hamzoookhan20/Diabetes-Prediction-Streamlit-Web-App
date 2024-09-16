@@ -110,7 +110,7 @@ if(selected == 'Graphs/Charts'):
         
         st.pyplot(fig)  # Display the chart
         
-   else:
+    else:
       st.write("No diabetic data to display. Complete the prediction on the 'Diabetes Prediction' page.")
 
 
