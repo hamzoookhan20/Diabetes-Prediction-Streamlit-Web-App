@@ -24,8 +24,8 @@ def save_plot_as_image(fig, filename='plot.png'):
 # Sidebar for navigation
 with st.sidebar:
     selected = option_menu('Diabetes Prediction System',
-                          ['Diabetes Prediction', 'Graphs/Charts'],
-                          icons=['activity', 'bar-chart'],
+                          ['Diabetes Prediction'],
+                          icons=['activity'],
                           default_index=0)
 
 # Diabetes Prediction Page
@@ -84,84 +84,40 @@ if selected == 'Diabetes Prediction':
                     diab_diagnosis = 'The person is not diabetic'
                     st.session_state['diabetic'] = False  # Store the result in session state
 
-                # Store the features in session state for use on the Graphs/Charts page
+                # Store the features in session state for use in charts
                 st.session_state['features'] = features
 
     # Display the diagnosis
     st.write(diab_diagnosis)
     st.info('Please fill in all the input fields with the appropriate values to get an accurate prediction.', icon="ℹ️")
 
-    # Button to navigate to the Graphs/Charts page
-    if st.button('Go to Graphs/Charts Page'):
-        st.session_state['page'] = 'Graphs/Charts'
-        st.experimental_rerun()
-
-# Diabetes Charts or Graphs Page
-if selected == 'Graphs/Charts':
-    
-    # Page title
-    st.title('Diabetes Predictions Charts/Graphs')
-    
-    # Check if the user is diagnosed as diabetic
-    if 'diabetic' in st.session_state and st.session_state['diabetic']:
-        st.write("The person is diabetic. Here are the detailed charts and graphs showing factors contributing to diabetes.")
+    # Display charts based on the prediction
+    if st.session_state['diabetic'] or not st.session_state['features']:
+        features = st.session_state['features']
+        feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
         
-        # Check if features are available
-        if st.session_state['features']:
-            features = st.session_state['features']
-            feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
-            
-            # Bar chart for diabetic factors
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.barh(feature_names, features, color='red')
-            ax.set_title('Factors Contributing to Diabetes Diagnosis')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Feature')
-            st.pyplot(fig)  # Display the chart
-            
-            # Save bar chart as image
-            bar_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
-
-            # Pie chart for feature distribution
-            fig, ax = plt.subplots(figsize=(8, 8))
-            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
-            ax.set_title('Feature Distribution for Diabetic Case')
-            st.pyplot(fig)  # Display the pie chart
-            
-            # Save pie chart as image
-            pie_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
-            
-    else:
-        st.write("Great news! Based on the provided data, the individual is not diabetic. Here’s a look at some of the healthy feature metrics.")
+        # Bar chart for diabetic or non-diabetic factors
+        fig, ax = plt.subplots(figsize=(10, 6))
+        color = 'red' if st.session_state['diabetic'] else 'green'
+        ax.barh(feature_names, features, color=color)
+        ax.set_title('Factors Contributing to Diabetes Diagnosis' if st.session_state['diabetic'] else 'Factors for Non-Diabetic Case')
+        ax.set_xlabel('Value')
+        ax.set_ylabel('Feature')
+        st.pyplot(fig)  # Display the chart
         
-        # Check if features are available
-        if st.session_state['features']:
-            features = st.session_state['features']
-            feature_names = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Diabetes Pedigree Function', 'Age']
-            
-            # Bar chart for non-diabetic factors
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.barh(feature_names, features, color='green')
-            ax.set_title('Factors for Non-Diabetic Case')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Feature')
-            st.pyplot(fig)  # Display the chart
-            
-            # Save bar chart as image
-            bar_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='non_diabetic_bar_chart.png', mime='image/png')
-            
-            # Pie chart for feature distribution
-            fig, ax = plt.subplots(figsize=(8, 8))
-            ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
-            ax.set_title('Feature Distribution for Non-Diabetic Case')
-            st.pyplot(fig)  # Display the pie chart
-            
-            # Save pie chart as image
-            pie_chart_image = save_plot_as_image(fig)
-            st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='non_diabetic_pie_chart.png', mime='image/png')
+        # Save bar chart as image
+        bar_chart_image = save_plot_as_image(fig)
+        st.download_button(label='Download Bar Chart', data=bar_chart_image, file_name='bar_chart.png', mime='image/png')
+
+        # Pie chart for feature distribution
+        fig, ax = plt.subplots(figsize=(8, 8))
+        ax.pie(features, labels=feature_names, autopct='%1.1f%%', colors=sns.color_palette('pastel'))
+        ax.set_title('Feature Distribution' if st.session_state['diabetic'] else 'Feature Distribution for Non-Diabetic Case')
+        st.pyplot(fig)  # Display the pie chart
+        
+        # Save pie chart as image
+        pie_chart_image = save_plot_as_image(fig)
+        st.download_button(label='Download Pie Chart', data=pie_chart_image, file_name='pie_chart.png', mime='image/png')
 
     # Social media sharing with icons
     st.markdown("""
