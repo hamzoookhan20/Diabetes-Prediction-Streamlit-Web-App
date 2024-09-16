@@ -143,8 +143,7 @@ if selected == 'Graphs/Charts':
         # Display top 4 factors
         st.write("### Top 4 Most Effective Factors:")
         for name, value in zip(top_4_names, top_4_values):
-            if isinstance(value, (int, float)):  # Ensure value is numeric
-                st.write(f"- {name}: {value:.2f}")
+            st.write(f"- {name}: {value:.2f}")
 
         # Social media sharing with icons
         st.markdown("""
