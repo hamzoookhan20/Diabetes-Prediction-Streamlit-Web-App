@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import io
-from matplotlib.backends.backend_agg import FigureCanvasAgg
 
 # Load diabetes_model.pkl file
 diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
@@ -93,7 +92,9 @@ if selected == 'Diabetes Prediction':
     st.info('Please fill in all the input fields with the appropriate values to get an accurate prediction.', icon="ℹ️")
 
     # Button to navigate to the Graphs/Charts page
-    st.markdown("[Go to Graphs/Charts Page](?selected=Graphs/Charts)")
+    if st.button('Go to Graphs/Charts Page'):
+        st.session_state['page'] = 'Graphs/Charts'
+        st.experimental_rerun()
 
 # Diabetes Charts or Graphs Page
 if selected == 'Graphs/Charts':
