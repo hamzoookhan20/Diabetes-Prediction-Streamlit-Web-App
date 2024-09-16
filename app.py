@@ -10,7 +10,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 
-
+# Load daibetes_model.pkl file
 diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 
 
@@ -19,7 +19,7 @@ diabetes_model = pickle.load(open('diabetes_model.pkl', 'rb'))
 # sidebar for navigation
 with st.sidebar:
     
-    selected = option_menu('Diabetes Prediction System',
+    selected = option_menu('Diabetes Prediction System', 'Graphs',
                           
                           ['Diabetes Prediction',
                          ],
