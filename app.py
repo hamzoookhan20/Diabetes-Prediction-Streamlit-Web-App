@@ -110,6 +110,9 @@ if selected == 'Graphs/Charts':
     # Page title with color
     colored_title('Diabetes Predictions Charts/Graphs', '#007bff')  # Adjust color as needed
     
+    # Navigation back to prediction page
+    st.write("Return to the [Diabetes Prediction Page](#Diabetes-Prediction)")
+
     # Check if the user has a diagnosis
     if st.session_state['features']:
         features = st.session_state['features']
