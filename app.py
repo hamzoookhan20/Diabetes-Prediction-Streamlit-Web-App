@@ -16,9 +16,9 @@ if 'diabetic' not in st.session_state:
     st.session_state['feature_importance'] = None  # To store the importance of features
 
 # Function to save plot as image
-def save_plot_as_image(fig):
+def save_plot_as_image(fig, filename='plot.png'):
     buf = io.BytesIO()
-    fig.savefig(buf, format='png', bbox_inches='tight')
+    fig.savefig(buf, format='png')
     buf.seek(0)
     return buf
 
